@@ -2,10 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import AppProviders from "./context";
+import GlobalStyle from "./styles/GlobalStyle";
 
 ReactDOM.render(
   <React.StrictMode>
+      <AppProviders>
+          <GlobalStyle/>
           <App />
+      </AppProviders>
   </React.StrictMode>,
   document.getElementById('root')
 );

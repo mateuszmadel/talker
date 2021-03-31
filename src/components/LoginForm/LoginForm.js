@@ -1,6 +1,7 @@
 import Button from "../Button/Button";
 import Input from "../Input/Input";
 import styled from "styled-components";
+import {useAuth} from "../../context/AuthContext";
 
 const Form =styled.form`
   display:flex;
@@ -12,13 +13,12 @@ const FormGroup = styled.div`
     flex-direction: column;
 `
 
-function LoginForm(onSubmit){
-
+function LoginForm(props){
+    const {login}=useAuth();
     const handleSubmit = (event) =>{
         event.preventDefault();
         const {username, password} = event.target.elements;
-        onSubmit({username: username.value, password: password.value,});
-
+        login({username:username.value,password:password.value});
     }
     return(
         <Form

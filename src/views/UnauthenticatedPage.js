@@ -44,7 +44,7 @@ border-bottom:2px solid ${props=>props.theme.grayDark};
   justify-content: center;
   align-items: stretch;
   flex-direction: column;
-  a{
+  span{
     margin-top:15px;
     margin-bottom: 20px;
     align-self: center;
@@ -91,8 +91,8 @@ function UnauthenticatedPage(props) {
                 </TextWrapper>
                 <FormWrapper>
                     <InnerFormWrapper>
-                        <LoginForm />
-                        <a>Forgot your password?</a>
+                        <LoginForm/>
+                        <span>Forgot your password?</span>
                     </InnerFormWrapper>
                     <ButtonWrapper>
                         <Modal buttonLabel="Create new account">

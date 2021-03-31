@@ -1,20 +1,15 @@
-import GlobalStyle from "./styles/GlobalStyle";
-import {ThemeProvider} from "styled-components";
-import {theme} from "./styles/theme";
-import UnauthenticatedPage from "./views/UnauthenticatedPage";
+import React from 'react';
+import {useUser} from "./context/UserContext";
+
+const AuthenticatedApp = React.lazy(() => import('./AuthenticatedApp'))
+const UnauthenticatedApp = React.lazy(() => import('./views/UnauthenticatedPage'))
 function App() {
-    return (
-        <>
-        <GlobalStyle/>
-            <ThemeProvider theme={theme}>
-                <UnauthenticatedPage>
-
-                </UnauthenticatedPage>
-            </ThemeProvider>
-            </>
-
-)
-    ;
+    const user = useUser()
+    return(
+        <React.Suspense fallback={<h1>Loading...</h1>}>
+            {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+        </React.Suspense>
+    )
 }
 
 export default App;
