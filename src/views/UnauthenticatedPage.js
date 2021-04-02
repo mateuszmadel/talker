@@ -9,7 +9,7 @@ const Container=styled.div`
   justify-content:space-evenly;
   align-items: center;
   min-height: 100vh;
-  min-width: 100vw;
+  min-width: 100%;
   background-color: ${props => props.theme.gray};
 `
 const Wrapper = styled.div`
@@ -29,6 +29,11 @@ const TextWrapper=styled.div`
   padding:20px 12px;
   width: 400px;
   margin:0 50px;
+  @media ${mq.extraSmall}{
+    width:70%;
+    margin:0 20px;
+  }
+  
 `
 const FormWrapper=styled.div`
 background-color: ${props => props.theme.primary};
@@ -37,6 +42,13 @@ width: 400px;
 border-radius: 10px;
 margin:0 50px;
 box-shadow: 0 4px 6px 0 hsla(0,0%,0%,0.2);
+  @media ${mq.extraSmall}{
+    width:70%;
+    margin:0 20px;
+  }
+  
+  
+  
 `
 const InnerFormWrapper=styled.div`
 border-bottom:2px solid ${props=>props.theme.grayDark};
@@ -72,7 +84,10 @@ margin-top:0;
 color:${props => props.theme.primaryText};
 font-size:32px;
 font-family: 'Roboto',sans-serif;
-font-weight: 400;  
+font-weight: 400;
+  @media ${mq.extraSmall}{
+    font-size:24px;
+  }
 `
 const ModalHeading=styled.h1`
   color:${props => props.theme.primaryText};

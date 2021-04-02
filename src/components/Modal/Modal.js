@@ -18,8 +18,7 @@ const Content= styled.div`
   border-radius: 10px;
   margin:30px auto;
   box-shadow: 0 4px 6px 0 hsla(0,0%,0%,0.2);
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 80%;
 `
 const ButtonWrapper =styled.div`
 display:flex;
@@ -29,16 +28,27 @@ flex-direction: row-reverse;
 function Modal(props) {
     const [isOpen, setIsOpen] = useState(false)
 
+    const closeModal=()=>{
+        setIsOpen(false);
+    }
     return (
         <div>
             <Button  onClick={()=>setIsOpen(true)} color="tertiary">{props.buttonLabel}</Button>
             {isOpen &&
                 <Container onClick={()=>setIsOpen(false)}>
-                    <Content onClick={e => {e.stopPropagation()}}>
+                    <Content data-testid="modal" onClick={e => {e.stopPropagation()}}>
                         <ButtonWrapper>
-                            <Button color="tertiary" small onClick={()=>setIsOpen(false)}>&times;</Button>
+                            <Button color="tertiary" small onClick={closeModal}>&times;</Button>
                         </ButtonWrapper>
-                        {props.children}
+                        {
+                            React.Children.map(props.children, (child) =>
+                                React.cloneElement(child, {
+                                    closeModal
+                                })
+                            )
+                        }
+
+
                     </Content>
                 </Container>
             }

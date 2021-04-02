@@ -25,10 +25,10 @@ function LoginForm(props){
             onSubmit={handleSubmit}
         >
             <FormGroup>
-                <Input id="username" placeholder="Username"/>
+                <Input id="username" placeholder="Username" required/>
             </FormGroup>
             <FormGroup>
-                <Input id="password" type="password" placeholder="Password"/>
+                <Input id="password" type="password" placeholder="Password" required/>
             </FormGroup>
             <FormGroup>
                 <Button type="submit" color="secondary">Sign In</Button>
