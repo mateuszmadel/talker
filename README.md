@@ -23,7 +23,7 @@ Node.js and npm. <br>
 Running backend from [github.com](https://github.com/mateuszmadel/talker-backend). <br>
 Enter API url in `.env` file.
    ```JS
-   REACT_APP_API_URL = 'URL';
+   REACT_APP_API_URL = URL;
    ```
 
 ## Available Scripts
@@ -37,10 +37,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
+Launches the test runner in the interactive watch mode.
 
 ### `npm build`
 
-Builds the app for production to the `build` folder.\
+Builds the app for production to the `build` folder.
 
 
