@@ -1,4 +1,5 @@
 import React,{useState} from "react";
+import {apiCall} from "../utils/apiCall";
 
 const AuthContext = React.createContext();
 
@@ -9,34 +10,20 @@ function AuthProvider(props){
     React.useEffect(() => {
         const token = localStorage.getItem("token");
         if(token){
-            fetch('http://localhost:8080/user',{
-                headers: {
-                    'Authorization':token
-                },
-            }).then(response => response.json())
-                .then(json=> {
-                    setData({token,user:json});
-                }).catch((error) => {
-
-            });
+            apiCall('user',{token}).then(r=>{
+                    console.log(r);
+                    setData({token,user:r});
+                }
+            )
         }
     },[])
 
     const login = (credentials) => {
-        fetch('http://localhost:8080/auth',{
-            method:'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(credentials),
-        }).then(response => response.json())
-            .then(json=> {
-                setData(json);
-                localStorage.setItem("token",json.token);
-            })
-            .catch((error) => {
-
-            });
+        apiCall('auth',{data:credentials}).then(r=> {
+                setData(r);
+                localStorage.setItem("token", r.token);
+            }
+        )
     }
     const logout = () => {
         localStorage.clear();
