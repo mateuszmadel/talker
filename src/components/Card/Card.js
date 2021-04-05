@@ -1,41 +1,37 @@
 import styled from 'styled-components'
 import { CommentOutlined, Favorite } from '@material-ui/icons';
-import avatar from '../../assets/avatarPlaceholder.png'
+import avatarPlaceholder from '../../assets/avatarPlaceholder.png'
 import CommentsSection from "../CommentsSection/CommentsSection";
 import {useState} from "react";
-
-const exampleComments =[
-    {id:1,author:"Jan Kowalski",commentsCount:8,likesCount:54, content:"komentarz 1", comments:[{id:3,author:"Norbert",commentsCount:1,likesCount:7, content:"I'm nested",comments:[{id:4,author:"Norbert",commentsCount:0,likesCount:3, content:"I'm nested level 2"}]}]},
-    {id:2,author:"Kamil Ślimak",commentsCount:0,likesCount:372, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent facilisis nulla magna, a elementum justo sagittis ac. Morbi ultricies odio vel enim conseq"}
-]
-function Card(props){
-    const userAvatar = props.avatar === undefined ? avatar : props.avatar;
+import timeSince from "../../utils/timeSince";
+function Card({id,author,created,avatar,content,commentsCount,likesCount,comments,likes}){
+    const userAvatar = avatar === undefined ? avatarPlaceholder : avatar;
     const [commentsVisibility,setCommentsVisibility]=useState(false);
     return (
         <Wrapper>
             <Heading>
                 <Image src={userAvatar} alt="avatar"/>
                 <div>
-                    {props.author}
-                    <span>{props.created}</span>
+                    {author}
+                    <span>{timeSince(new Date(created))} ago</span>
                 </div>
 
             </Heading>
             <ContentWrapper>
-                <div>{props.content}</div>
+                <div>{content}</div>
             </ContentWrapper>
             <Footer>
-                <div><CommentIcon onClick={()=>setCommentsVisibility(!commentsVisibility)} style={{ fontSize: 40 }}/>{props.comments}</div>
-                <div><LikeIcon  style={{ fontSize: 40}}/>{props.likes}</div>
+                <div><CommentIcon onClick={()=>setCommentsVisibility(!commentsVisibility)} style={{ fontSize: 40 }}/>{commentsCount}</div>
+                <div><LikeIcon  style={{ fontSize: 40}}/>{likesCount}</div>
             </Footer>
-            <CommentsSection isVisible={commentsVisibility} comments={exampleComments}/>
+            <CommentsSection postId={id} isVisible={commentsVisibility} comments={comments}/>
         </Wrapper>
     )
 }
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme.primary};
-  max-width: 700px;
+  width:66%;
   border-radius:5px;
   margin:5px;
   padding:10px;

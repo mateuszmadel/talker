@@ -8,7 +8,6 @@ async function apiCall(endpoint,{data,token}) {
             'Content-Type': data ? 'application/json' : undefined,
         },
     }
-
     return window.fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, config).then(async response => {
         if (response.status === 401) {
             localStorage.clear();

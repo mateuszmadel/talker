@@ -3,11 +3,21 @@ import styled from "styled-components";
 import {CommentOutlined, Favorite, SendRounded} from "@material-ui/icons";
 import avatar from "../../assets/avatarPlaceholder.png";
 import Input from "../Input/Input";
+import {apiCall} from "../../utils/apiCall";
 
 
-function Comment({userAvatar, author, content, commentsCount, likesCount, comments}){
-    const [visible,setVisibility]=useState(false)
-
+function Comment({id,userAvatar, author, content, commentsCount, likesCount, comments}){
+    const [visible,setVisibility]=useState(false);
+    const [commentsArr,setCommentsArr]=useState(comments);
+    const [inputValue, setInputValue]=useState('');
+    const sendComment = () =>{
+        if(inputValue) {
+            apiCall('post/comment', {data: {type:'comment',id: id.toString(), content:inputValue},token:localStorage.getItem("token")}).then(r=>{
+                setCommentsArr(oldArray => [r,...oldArray]);
+                setInputValue('');
+            })
+        }
+    }
     return(
         <Wrapper>
             <CommentWrapper>
@@ -24,14 +34,14 @@ function Comment({userAvatar, author, content, commentsCount, likesCount, commen
             {visible &&
             <NestedComments>
                 <InputWrapper>
-                    <CommentInput id="comment" placeholder="Reply to comment above..."/>
-                    <SendIcon style={{ fontSize: 30}}/>
+                    <CommentInput value={inputValue} onChange={evt => setInputValue(evt.target.value)} id="comment" placeholder="Reply to comment above..."/>
+                    <SendIcon onClick={()=>sendComment()} style={{ fontSize: 30}}/>
                 </InputWrapper>
-                {comments!==undefined &&
-                    comments.map(el=>{
+                {commentsArr!==undefined &&
+                    commentsArr.map(el=>{
                     let userAvatar = el.userAvatar === undefined ? avatar : el.userAvatar
                     return(
-                        <Comment userAvatar={userAvatar} content={el.content} author={el.author} commentsCount={el.commentsCount} likesCount={el.likesCount} comments={el.comments} key={el.id} />
+                        <Comment id={el._id} userAvatar={userAvatar} content={el.content} author={el.author.username} commentsCount={el.comments.length} likesCount={el.likes.length} likes={el.likes} comments={el.comments} key={el._id} />
                     )
                 })}
             </NestedComments>}

@@ -4,28 +4,41 @@ import avatar from '../../assets/avatarPlaceholder.png'
 import {useUser} from "../../context/UserContext";
 import {SendRounded} from "@material-ui/icons";
 import Comment from "../Comment/Comment";
+import {apiCall} from "../../utils/apiCall";
+import {useState} from "react";
 
-function CommentsSection({isVisible,comments}){
+function CommentsSection({postId,isVisible,comments}){
     const user = useUser();
+    const [commentsArr,setCommentsArr]=useState(comments);
     const userAvatar = user.userAvatar === undefined ? avatar : user.userAvatar;
+    const [inputValue, setInputValue]=useState('');
+    const sendComment = () =>{
+        if(inputValue) {
+            apiCall('post/comment', {data: {type:'post',id: postId.toString(), content:inputValue},token:localStorage.getItem("token")}).then(r=>{
+                setCommentsArr(oldArray => [r,...oldArray]);
+                setInputValue('');
+            })
+        }
+    }
+
     return(
         <>
-        {isVisible &&(
+        {isVisible &&
         <Wrapper>
             <InputWrapper>
                 <Image src={userAvatar}/>
-                <CommentInput id="comment" placeholder="Write a comment..."/>
-                <SendIcon style={{ fontSize: 30}}/>
+                <CommentInput value={inputValue} onChange={evt => setInputValue(evt.target.value)} id="comment" placeholder="Write a comment..."/>
+                <SendIcon  onClick={()=>sendComment()} style={{ fontSize: 30}}/>
             </InputWrapper>
             <CommentsWrapper>
-                {comments.map(el=>{
+                {commentsArr!==undefined && commentsArr.map(el=>{
                     let userAvatar = el.userAvatar === undefined ? avatar : el.userAvatar
                     return(
-                        <Comment userAvatar={userAvatar} content={el.content} author={el.author} commentsCount={el.commentsCount} likesCount={el.likesCount} comments={el.comments} key={el.id} />
+                        <Comment id={el._id} userAvatar={userAvatar} content={el.content} author={el.author.username} commentsCount={el.comments.length} likesCount={el.likes.length} comments={el.comments} key={el._id} />
                     )
                 })}
             </CommentsWrapper>
-        </Wrapper>)
+        </Wrapper>
         }
         </>
     )
