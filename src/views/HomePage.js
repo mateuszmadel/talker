@@ -6,7 +6,7 @@ function HomePage(props){
 
    useEffect(()=>{
       apiCall('post/getall',{token:localStorage.getItem("token")})
-          .then(r=>setPosts(r));
+          .then(r=> setPosts(r));
    },[])
 
    return(
@@ -14,7 +14,7 @@ function HomePage(props){
           {posts.length&&
               posts.map(post=>(
                   <Card key={post._id} id={post._id} author={post.author.username} content={post.content}
-                        likesCount={post.likes.length} likes={post.likes} commentsCount={post.comments.length} created={post.created_at} comments={post.comments}
+                        likes={post.likes} created={post.created_at} comments={post.comments}
                   />
               ))
        }

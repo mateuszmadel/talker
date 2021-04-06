@@ -1,20 +1,40 @@
 import React, { useState } from 'react';
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {CommentOutlined, Favorite, SendRounded} from "@material-ui/icons";
 import avatar from "../../assets/avatarPlaceholder.png";
 import Input from "../Input/Input";
 import {apiCall} from "../../utils/apiCall";
+import {useUser} from "../../context/UserContext";
 
 
-function Comment({id,userAvatar, author, content, commentsCount, likesCount, comments}){
+function Comment({id,userAvatar, author, content, comments, likes}){
     const [visible,setVisibility]=useState(false);
     const [commentsArr,setCommentsArr]=useState(comments);
+    const user =useUser();
+    const [likesArr,setLikesArr]=useState(likes);
     const [inputValue, setInputValue]=useState('');
+    const [isLiked, setIsLiked]=useState(likesArr.includes(user._id))
+
     const sendComment = () =>{
         if(inputValue) {
             apiCall('post/comment', {data: {type:'comment',id: id.toString(), content:inputValue},token:localStorage.getItem("token")}).then(r=>{
                 setCommentsArr(oldArray => [r,...oldArray]);
                 setInputValue('');
+            })
+        }
+    }
+
+    const likeComment = () =>{
+        if(isLiked===true){
+            apiCall('post/like', {data: {type:'comment',id: id.toString()},token:localStorage.getItem("token"),method:'DELETE'}).then(r=>{
+                setLikesArr(r);
+                setIsLiked(false);
+            })
+        }
+        else{
+            apiCall('post/like', {data: {type:'comment',id: id.toString()},token:localStorage.getItem("token")}).then(r=>{
+                setLikesArr(r);
+                setIsLiked(true);
             })
         }
     }
@@ -26,8 +46,8 @@ function Comment({id,userAvatar, author, content, commentsCount, likesCount, com
                     <p className="commentAuthor">{author}</p>
                     <p>{content}</p>
                     <IconsWrapper>
-                        <div><CommentIcon onClick={()=>setVisibility(!visible)} style={{ fontSize: 24 }}/>{commentsCount}</div>
-                        <div><LikeIcon  style={{ fontSize: 24}}/>{likesCount}</div>
+                        <div><CommentIcon onClick={()=>setVisibility(!visible)} style={{ fontSize: 24 }}/>{commentsArr.length}</div>
+                        <div><LikeIcon onClick={()=>likeComment()} isLiked={isLiked} style={{ fontSize: 24}}/>{likesArr.length}</div>
                     </IconsWrapper>
                 </ContentWrapper>
             </CommentWrapper>
@@ -37,11 +57,11 @@ function Comment({id,userAvatar, author, content, commentsCount, likesCount, com
                     <CommentInput value={inputValue} onChange={evt => setInputValue(evt.target.value)} id="comment" placeholder="Reply to comment above..."/>
                     <SendIcon onClick={()=>sendComment()} style={{ fontSize: 30}}/>
                 </InputWrapper>
-                {commentsArr!==undefined &&
-                    commentsArr.map(el=>{
+                {commentsArr.map(el => {
                     let userAvatar = el.userAvatar === undefined ? avatar : el.userAvatar
-                    return(
-                        <Comment id={el._id} userAvatar={userAvatar} content={el.content} author={el.author.username} commentsCount={el.comments.length} likesCount={el.likes.length} likes={el.likes} comments={el.comments} key={el._id} />
+                    return (
+                        <Comment id={el._id} userAvatar={userAvatar} content={el.content} author={el.author.username}
+                                 likes={el.likes} comments={el.comments} key={el._id}/>
                     )
                 })}
             </NestedComments>}
@@ -104,6 +124,11 @@ const LikeIcon = styled(Favorite)`
   color:${props => props.theme.grayDark};
   margin-right:2px;
   border-radius:20px;
+  ${({ isLiked }) =>
+          isLiked && css`
+            background-color: rgba(228, 88, 88, 0.1);
+            color: ${props=>props.theme.tertiary};
+    `}
   :hover{
     color: ${props=>props.theme.tertiary};
     background-color: rgba(228, 88, 88, 0.1);

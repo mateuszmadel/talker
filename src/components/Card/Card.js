@@ -1,12 +1,32 @@
-import styled from 'styled-components'
+import styled,{ css } from 'styled-components'
 import { CommentOutlined, Favorite } from '@material-ui/icons';
 import avatarPlaceholder from '../../assets/avatarPlaceholder.png'
 import CommentsSection from "../CommentsSection/CommentsSection";
 import {useState} from "react";
 import timeSince from "../../utils/timeSince";
-function Card({id,author,created,avatar,content,commentsCount,likesCount,comments,likes}){
+import {useUser} from "../../context/UserContext";
+import {apiCall} from "../../utils/apiCall";
+function Card({id,author,created,avatar,content,comments,likes}){
     const userAvatar = avatar === undefined ? avatarPlaceholder : avatar;
+    const user =useUser();
+    const [likesArr,setLikesArr]=useState(likes);
     const [commentsVisibility,setCommentsVisibility]=useState(false);
+    const [isLiked, setIsLiked]=useState(likesArr.includes(user._id))
+
+    const likePost = () =>{
+        if(isLiked===true){
+            apiCall('post/like', {data: {type:'post',id: id.toString()},token:localStorage.getItem("token"),method:'DELETE'}).then(r=>{
+                setLikesArr(r);
+                setIsLiked(false);
+            })
+        }
+        else{
+            apiCall('post/like', {data: {type:'post',id: id.toString()},token:localStorage.getItem("token")}).then(r=>{
+                setLikesArr(r);
+                setIsLiked(true);
+            })
+        }
+    }
     return (
         <Wrapper>
             <Heading>
@@ -21,8 +41,8 @@ function Card({id,author,created,avatar,content,commentsCount,likesCount,comment
                 <div>{content}</div>
             </ContentWrapper>
             <Footer>
-                <div><CommentIcon onClick={()=>setCommentsVisibility(!commentsVisibility)} style={{ fontSize: 40 }}/>{commentsCount}</div>
-                <div><LikeIcon  style={{ fontSize: 40}}/>{likesCount}</div>
+                <div><CommentIcon onClick={()=>setCommentsVisibility(!commentsVisibility)} style={{ fontSize: 40 }}/>{comments.length}</div>
+                <div><LikeIcon  onClick={()=>likePost()} isLiked={isLiked} style={{ fontSize: 40}}/>{likesArr.length}</div>
             </Footer>
             <CommentsSection postId={id} isVisible={commentsVisibility} comments={comments}/>
         </Wrapper>
@@ -85,6 +105,11 @@ const Footer = styled.div`
     }
 `
 const LikeIcon = styled(Favorite)`
+  ${({ isLiked }) =>
+          isLiked && css`
+            background-color: rgba(228, 88, 88, 0.1);
+            color: ${props=>props.theme.tertiary};
+    `}
   :hover{
     color: ${props=>props.theme.tertiary};
     background-color: rgba(228, 88, 88, 0.1);

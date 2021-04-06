@@ -34,7 +34,7 @@ function CommentsSection({postId,isVisible,comments}){
                 {commentsArr!==undefined && commentsArr.map(el=>{
                     let userAvatar = el.userAvatar === undefined ? avatar : el.userAvatar
                     return(
-                        <Comment id={el._id} userAvatar={userAvatar} content={el.content} author={el.author.username} commentsCount={el.comments.length} likesCount={el.likes.length} comments={el.comments} key={el._id} />
+                        <Comment id={el._id} userAvatar={userAvatar} content={el.content} author={el.author.username} likes={el.likes} comments={el.comments} key={el._id} />
                     )
                 })}
             </CommentsWrapper>

@@ -1,7 +1,7 @@
-async function apiCall(endpoint,{data,token}) {
+async function apiCall(endpoint,{data,token,method}) {
 
     const config = {
-        method: data ? 'POST' : 'GET',
+        method:method ? method: (data ? 'POST' : 'GET'),
         body: data ? JSON.stringify(data) : undefined,
         headers: {
             Authorization: token ? token: undefined,
