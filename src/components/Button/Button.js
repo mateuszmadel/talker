@@ -19,5 +19,18 @@ const Button = styled.button`
           small && css`
               padding:0 8px;
     `}
+    ${({createPost}) =>
+          createPost && css`
+              background-color: ${props => props.theme.gray};  
+              margin:5px;
+              width:90%;
+              border-radius: 30px;
+              text-align: start;
+              color:${props => props.theme.primaryText};
+              :hover{
+                background-color: ${props => props.theme.grayDark};
+              }
+              
+    `}
 `
-export default Button
+export default Button;

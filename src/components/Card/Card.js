@@ -51,7 +51,7 @@ function Card({id,author,created,avatar,content,comments,likes}){
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme.primary};
-  width:66%;
+  width:100%;
   border-radius:5px;
   margin:5px;
   padding:10px;

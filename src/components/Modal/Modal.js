@@ -33,7 +33,7 @@ function Modal(props) {
     }
     return (
         <div>
-            <Button  onClick={()=>setIsOpen(true)} color="tertiary">{props.buttonLabel}</Button>
+            <Button createPost={props.createPost} onClick={()=>setIsOpen(true)} color="tertiary">{props.buttonLabel}</Button>
             {isOpen &&
                 <Container onClick={()=>setIsOpen(false)}>
                     <Content data-testid="modal" onClick={e => {e.stopPropagation()}}>
