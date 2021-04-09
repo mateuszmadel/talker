@@ -4,12 +4,11 @@ import Input from "../Input/Input";
 import Button from "../Button/Button";
 import {PhotoLibraryRounded} from "@material-ui/icons";
 
-function PostForm() {
+function PostForm({closeModal}) {
     const [file,setFile]=useState();
     const handleSubmit = (event) =>{
         event.preventDefault();
         const { content } = event.target.elements;
-        console.log(content);
         const formData = new FormData();
         formData.append("content",content.value);
         formData.append("file", file);
@@ -20,8 +19,8 @@ function PostForm() {
                 Authorization: localStorage.getItem("token"),
             },
         }).then(r=>r.json()).then(
-            r=> {
-                console.log(r)
+            ()=> {
+                closeModal();
             }
         );
     }
@@ -35,6 +34,7 @@ function PostForm() {
             </FormGroup>
             <FormGroup>
                 <Label className="file-upload">
+                    {file && <Image src={URL.createObjectURL(file)} alt=""/>}
                     <input  onChange={(e) => setFile(e.target.files[0])} hidden id="file" type="file" accept="image/*"/>
                     <p>Add image to post</p>
                     <ImageIcon style={{ fontSize: 40}}/>
@@ -74,5 +74,10 @@ const ImageIcon = styled(PhotoLibraryRounded)`
   :hover{
     color:${props => props.theme.primaryText};
   }
+`
+const Image = styled.img`
+  width:50%;
+  object-fit: contain;
+  margin:5px;
 `
 export default PostForm;

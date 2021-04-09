@@ -11,6 +11,7 @@ const Button = styled.button`
     background-color: ${({ color, theme }) => theme[color]};
     :hover{
       background-color: ${({ color, theme }) => theme[color+"Dark"]};
+      cursor:pointer;
     }
     :focus{
     outline-style: none;
@@ -21,12 +22,11 @@ const Button = styled.button`
     `}
     ${({createPost}) =>
           createPost && css`
-              background-color: ${props => props.theme.gray};  
-              margin:5px;
-              width:90%;
+              background-color: ${props => props.theme.gray};
+              width:100%;
               border-radius: 30px;
               text-align: start;
-              color:${props => props.theme.primaryText};
+              color:${props => props.theme.primaryTextLight};
               :hover{
                 background-color: ${props => props.theme.grayDark};
               }

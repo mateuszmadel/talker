@@ -15,16 +15,18 @@ function HomePage(props){
 
    return(
        <Wrapper>
-           <Modal createPost buttonLabel="Share your thoughts...">
-               <ModalHeading>
-                   Create post
-               </ModalHeading>
-               <PostForm/>
-           </Modal>
+           <InputWrapper>
+               <Modal createPost buttonLabel="Share your thoughts...">
+                   <ModalHeading>
+                       Create post
+                   </ModalHeading>
+                   <PostForm/>
+               </Modal>
+           </InputWrapper>
           {posts.length&&
               posts.map(post=>(
                   <Card key={post._id} id={post._id} author={post.author.username} content={post.content}
-                        likes={post.likes} created={post.created_at} comments={post.comments}
+                        likes={post.likes} created={post.created_at} comments={post.comments} image={post.image}
                   />
               ))
        }
@@ -39,6 +41,14 @@ const Wrapper = styled.div`
    width:700px;
   min-width: 50%;
   background-color: ${props => props.theme.gray};
+`
+const InputWrapper =styled.div`
+  background-color: ${props => props.theme.primary};
+  width:100%;
+  border-radius:5px;
+  margin:5px;
+  padding:15px;
+  box-shadow: 0 2px 3px 0 hsla(0,0%,0%,0.2);
 `
 const ModalHeading=styled.h1`
   text-align: center;

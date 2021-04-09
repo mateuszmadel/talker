@@ -6,7 +6,7 @@ import {useState} from "react";
 import timeSince from "../../utils/timeSince";
 import {useUser} from "../../context/UserContext";
 import {apiCall} from "../../utils/apiCall";
-function Card({id,author,created,avatar,content,comments,likes}){
+function Card({id,author,created,avatar,content,comments,likes,image}){
     const userAvatar = avatar === undefined ? avatarPlaceholder : avatar;
     const user =useUser();
     const [likesArr,setLikesArr]=useState(likes);
@@ -38,7 +38,10 @@ function Card({id,author,created,avatar,content,comments,likes}){
 
             </Heading>
             <ContentWrapper>
-                <div>{content}</div>
+                <div>
+                    {content}
+                    {image &&<PostImage src={image} alt=""/>}
+                </div>
             </ContentWrapper>
             <Footer>
                 <div><CommentIcon onClick={()=>setCommentsVisibility(!commentsVisibility)} style={{ fontSize: 40 }}/>{comments.length}</div>
@@ -105,6 +108,7 @@ const Footer = styled.div`
     }
 `
 const LikeIcon = styled(Favorite)`
+  
   ${({ isLiked }) =>
           isLiked && css`
             background-color: rgba(228, 88, 88, 0.1);
@@ -128,6 +132,10 @@ const Image = styled.img`
   height:50px;
   margin-right:15px;
 `
-
+const PostImage = styled.img`
+  width:100%;
+  object-fit: contain;
+  margin-top:10px;
+`
 
 export default Card;

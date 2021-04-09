@@ -8,7 +8,7 @@ Social media application(work in progress).
 - [X] User registration and login
 - [X] Authentication logic
 - [ ] Home page
-- [ ] Creating new post 
+- [x] Creating new post 
 - [ ] Infinite scroll posts list
 - [ ] Edit profile page
 - [ ] Friends / followers page
