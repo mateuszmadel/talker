@@ -16,6 +16,11 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
     font-family: "Roboto", sans-serif;
   }
+  @media screen and (max-width: 480px){
+    html,body{
+      overflow-x: hidden;
+    }
+  }
 `;
 
 export default GlobalStyle;

@@ -6,6 +6,7 @@ import {useState} from "react";
 import timeSince from "../../utils/timeSince";
 import {useUser} from "../../context/UserContext";
 import {apiCall} from "../../utils/apiCall";
+
 function Card({id,author,created,avatar,content,comments,likes,image}){
     const userAvatar = avatar === undefined ? avatarPlaceholder : avatar;
     const user =useUser();
@@ -56,9 +57,11 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme.primary};
   width:100%;
   border-radius:5px;
-  margin:5px;
+  margin-bottom:5px;
+  margin-top:5px;
   padding:10px;
   box-shadow: 0 4px 6px 0 hsla(0,0%,0%,0.2);
+ 
 `
 const Heading = styled.div`
   display:flex;

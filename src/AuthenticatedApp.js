@@ -9,7 +9,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  min-width: 100%;
+  width: 100%;
+  
   background-color: ${props => props.theme.gray};
 `
 function AuthenticatedApp() {
@@ -18,7 +19,7 @@ function AuthenticatedApp() {
     return (
         <Wrapper>
             hello {user.username}
-            <Button onClick={auth.logout} color="secondary">Wyloguj</Button>
+            <Button onClick={auth.logout} color="secondary">Logout</Button>
 
             <HomePage/>
         </Wrapper>
