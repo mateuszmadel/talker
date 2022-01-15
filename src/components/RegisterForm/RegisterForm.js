@@ -28,13 +28,13 @@ function RegisterForm({closeModal}){
 
     }
     const register = (userInput) => {
-            apiCall('user/register', {data: userInput}).then(() => {
+            apiCall('user/register', {data: userInput}).then((data) => {
                     closeModal();
-                },(data)=>{
-                setError(data);
-                }
-            )
-
+                }).catch(e =>{
+                    if(typeof e === 'string'){
+                        setError(e)
+                    }
+            })
     }
     return(
         <Form

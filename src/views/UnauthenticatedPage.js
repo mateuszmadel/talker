@@ -110,7 +110,7 @@ function UnauthenticatedPage(props) {
                         <span>Forgot your password?</span>
                     </InnerFormWrapper>
                     <ButtonWrapper>
-                        <Modal buttonLabel="Create new account">
+                        <Modal registerModal buttonLabel="Create new account">
                             <ModalHeading>
                                 Sign Up
                             </ModalHeading>

@@ -11,10 +11,11 @@ function AuthProvider(props){
         const token = localStorage.getItem("token");
         if(token){
             apiCall('user',{token}).then(r=>{
-                    console.log(r);
                     setData({token,user:r});
                 }
-            )
+            ).catch(e =>{
+                console.log(e);
+            })
         }
     },[])
 
@@ -23,7 +24,9 @@ function AuthProvider(props){
                 setData(r);
                 localStorage.setItem("token", r.token);
             }
-        )
+        ).catch(e =>{
+            console.log(e);
+        })
     }
     const logout = () => {
         localStorage.clear();

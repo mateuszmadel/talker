@@ -1,5 +1,4 @@
 async function apiCall(endpoint,{data,token,method}) {
-
     const config = {
         method:method ? method: (data ? 'POST' : 'GET'),
         body: data ? JSON.stringify(data) : undefined,

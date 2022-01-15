@@ -1,9 +1,7 @@
 import React from 'react';
-import {useUser} from "./context/UserContext";
-import {useAuth} from "./context/AuthContext";
-import Button from "./components/Button/Button";
 import styled from "styled-components";
 import HomePage from "./views/HomePage";
+import Navbar from "./components/Navbar/Navbar";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -14,12 +12,9 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme.gray};
 `
 function AuthenticatedApp() {
-    const user=useUser();
-    const auth=useAuth();
     return (
         <Wrapper>
-            hello {user.username}
-            <Button onClick={auth.logout} color="secondary">Logout</Button>
+            <Navbar showSearch/>
 
             <HomePage/>
         </Wrapper>

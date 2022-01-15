@@ -19,8 +19,8 @@ function PostForm({closeModal}) {
                 Authorization: localStorage.getItem("token"),
             },
         }).then(r=>r.json()).then(
-            ()=> {
-                closeModal();
+            (res)=> {
+                closeModal(res);
             }
         );
     }
@@ -29,9 +29,9 @@ function PostForm({closeModal}) {
         <Form
             onSubmit={handleSubmit}
         >
-            <FormGroup>
+            <InputContainer>
                 <PostInput id="content" placeholder="Share your thoughts..."/>
-            </FormGroup>
+            </InputContainer>
             <FormGroup>
                 <Label className="file-upload">
                     {file && <Image src={URL.createObjectURL(file)} alt=""/>}
@@ -56,11 +56,17 @@ const Form =styled.form`
   display:flex;
   flex-direction: column;
   align-items:stretch;
-  margin:5px;
+`
+const InputContainer = styled.div`
+  margin:10px 0;
+  border:1px solid lightgray;
+  display: flex;
+  flex-direction: column;
 `
 const FormGroup = styled.div`
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  margin-bottom:10px;
 `
 const Label = styled.label`
   display: flex;

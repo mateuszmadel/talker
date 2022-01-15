@@ -10,35 +10,38 @@ function HomePage(props){
 
    useEffect(()=>{
       apiCall('post/getall',{token:localStorage.getItem("token")})
-          .then(r=> setPosts(r));
+          .then(r=> setPosts(r)).catch(e =>{
+          console.log(e);
+      });
    },[])
-
+   const addPost = (post) =>{
+       setPosts([post,...posts])
+   }
    return(
        <Wrapper>
            <InputWrapper>
-               <Modal createPost buttonLabel="Share your thoughts...">
-                   <ModalHeading>
-                       Create post
-                   </ModalHeading>
+               <Modal onCloseModal={(post)=>addPost(post)}createPost buttonLabel="Share your thoughts...">
+
                    <PostForm/>
                </Modal>
            </InputWrapper>
-          {posts.length&&
+          {posts.length ?
               posts.map(post=>(
                   <Card key={post._id} id={post._id} author={post.author.username} content={post.content}
                         likes={post.likes} created={post.created_at} comments={post.comments} image={post.image}
                   />
-              ))
+              )) : <div>Nothing is here yet, follow someone to see some content.</div>
        }
        </Wrapper>
    )
 }
 const Wrapper = styled.div`
+  margin-top:50px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   min-height: 100vh;
-   width:700px;
+  width:700px;
   min-width: 50%;
   max-width: 100%;
   background-color: ${props => props.theme.gray};

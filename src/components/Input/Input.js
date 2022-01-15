@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 
 const Input = styled.input`
     border:1px solid ${props=>props.theme.grayDark};
@@ -12,6 +12,13 @@ const Input = styled.input`
         outline-style: none;
         border-color:${props=>props.theme.secondary};
     }
+  ${({search}) =>
+          search && css`
+              margin-left:15px;
+              height:40px;
+              width:400px;
+              margin-bottom:0;
+    `}
 `
 
 export default Input

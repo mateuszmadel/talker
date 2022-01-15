@@ -23,13 +23,16 @@ const Content= styled.div`
 const ButtonWrapper =styled.div`
 display:flex;
 flex-direction: row-reverse;
-
+justify-content: space-between;
 `
 function Modal(props) {
     const [isOpen, setIsOpen] = useState(false)
 
-    const closeModal=()=>{
+    const closeModal=(post)=>{
         setIsOpen(false);
+        if(!props.registerModal && post && post.author){
+            props.onCloseModal(post)
+        }
     }
     return (
         <div>
@@ -39,6 +42,9 @@ function Modal(props) {
                     <Content data-testid="modal" onClick={e => {e.stopPropagation()}}>
                         <ButtonWrapper>
                             <Button color="tertiary" small onClick={closeModal}>&times;</Button>
+                            {!props.registerModal &&<ModalHeading>
+                                Create post
+                            </ModalHeading>}
                         </ButtonWrapper>
                         {
                             React.Children.map(props.children, (child) =>
@@ -56,5 +62,12 @@ function Modal(props) {
         </div>
     );
 }
-
+const ModalHeading=styled.h1`
+  text-align: center;
+  color:${props => props.theme.primaryText};
+  font-family:'Lora',serif;
+  font-weight: 700;
+  font-size:20px;
+  margin: 0;
+`
 export default Modal;

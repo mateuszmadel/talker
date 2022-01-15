@@ -87,6 +87,7 @@ const ContentWrapper = styled.div`
     font-weight: 300;
     padding-bottom: 40px;
     border-bottom:1px solid ${props=>props.theme.grayDark};
+    overflow-wrap: anywhere;
   }
 `
 const Footer = styled.div`

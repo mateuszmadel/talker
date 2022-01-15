@@ -32,5 +32,9 @@ const Button = styled.button`
               }
               
     `}
+    ${({margin}) =>
+            margin && css`
+              margin-left:15px;
+    `}
 `
 export default Button;
